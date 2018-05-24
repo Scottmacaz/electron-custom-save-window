@@ -1,0 +1,3 @@
+return DriveInfo.GetDrives()
+                .Where(x => x.DriveType == DriveType.Removable)
+                .Select(x => x.RootDirectory).ToList();
