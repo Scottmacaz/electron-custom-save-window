@@ -1,0 +1,1 @@
+This is the text file that gets sent in response to the get /file.
