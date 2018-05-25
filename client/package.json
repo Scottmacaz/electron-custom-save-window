@@ -21,6 +21,7 @@
 	"main": "electron.js",
 	"scripts": {
 		"dev": "tsc electron.ts --outDir . && cross-env NODE_ENV=dev webpack-dev-server --port=4200",
+		"devng": "ng serve",
 		"prod": "webpack && electron dist/electron.js",
 		"packager:win": "cross-env NODE_OS=win node builder/packager.js",
 		"packager:mac": "cross-env NODE_OS=mac node builder/packager.js",

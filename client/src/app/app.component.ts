@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
     styleUrls: [require('./app.component.scss')]
 })
 export class AppComponent {
+    onDownload() {
+        console.log("Works!")
+    }
 }
