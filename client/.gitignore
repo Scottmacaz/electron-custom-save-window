@@ -1,26 +1,39 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
 # compiled output
-dist/*
-electron.js
+/dist
+/tmp
+/out-tsc
 
 # dependencies
-node_modules/*
+/node_modules
 
-# ide
-.idea/*
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
-# mac packager/installer
-mac_packager/*
-mac_installer/*
-electron-angular.dmg
-appdmg.json
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
-# windows packager/installer
-win_packager/*
-win_installer/*
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
 
-# linux packager/installer
-linux_packager/*
-linux_installer/*
-
-# miscellaneous
-npm-debug-log
+# System Files
+.DS_Store
+Thumbs.db
