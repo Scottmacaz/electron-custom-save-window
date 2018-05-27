@@ -17,5 +17,5 @@ Run 'npm install' in both the client and the server folders.
 ## Running the client.
 The client requires two steps:
 1) Start the angular application with 'npm start'.
-2) Start the electron application with 'npm run start-electron'.
+2) Start the electron application with 'npm run electron'.
 

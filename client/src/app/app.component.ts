@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AppService } from './app.service';
 import {saveAs} from 'file-saver';
+import { ElectronService } from 'ngx-electron';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +11,13 @@ import {saveAs} from 'file-saver';
 export class AppComponent {
   title = 'app';
 
-  constructor(private appService: AppService) {
+  constructor(private appService: AppService,
+    private electronService: ElectronService) {
 
   }
   onDownloadFile() {
     console.log('Download!');
-    //const blob = new Blob(['Hello, world!'], {type: 'text/plain;charset=utf-8'});
+    // const blob = new Blob(['Hello, world!'], {type: 'text/plain;charset=utf-8'});
     // saveAs(blob, 'hello world.txt');
 
     this.appService.getFile().subscribe(
@@ -32,12 +34,20 @@ export class AppComponent {
 
   private saveToFileSystem(response) {
     debugger;
-
     const contentDispositionHeader: string = response.headers.get('Content-Disposition');
     const parts: string[] = contentDispositionHeader.split(';');
     let filename = parts[1].split('=')[1];
     filename = filename.replace(/"/g,'');
     const blob = new Blob([response.body], { type: 'text/plain' });
-    saveAs(blob, filename);
+    if (this.electronService.isElectronApp) {
+      console.log('Electron app!');
+      this.electronService.ipcRenderer.send('saveFile', () => {
+        console.log('Event sent.');
+     });
+    } else {
+      console.log ('web page app!');
+      saveAs(blob, filename);
+    }
+
   }
 }

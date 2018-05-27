@@ -1,6 +1,15 @@
+// App currently only runs in development mode.  If deployed this article has a good section
+// on setting up deployment to use a file and not the development URL:
+// https://scotch.io/tutorials/build-a-music-player-with-angular-2-electron-i-setup-basics-concepts
+
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+const {ipcMain} = require('electron') ;
+require('electron-reload')(__dirname );
+
+console.log('watching: ' + __dirname );
+
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -56,3 +65,30 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+ipcMain.on('saveFile', (event, path) => {
+  const {dialog} = require('electron');
+  const fs = require('fs');
+  dialog.showOpenDialog({}, function (fileNames) {
+
+     // fileNames is an array that contains all the selected
+     if (fileNames === undefined) {
+        console.log('No file selected');
+
+     } else {
+        readFile(fileNames[0]);
+     }
+  });
+
+  function readFile(filepath) {
+     fs.readFile(filepath, 'utf-8', (err, data) => {
+
+        if (err) {
+           alert('An error ocurred reading the file :' + err.message)
+           return;
+        }
+
+        // handle the file content
+        event.sender.send('fileData', data);
+     })
+  }
+})
