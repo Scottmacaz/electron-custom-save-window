@@ -68,15 +68,27 @@ app.on('activate', () => {
 ipcMain.on('saveFile', (event, path) => {
   const {dialog} = require('electron');
   const fs = require('fs');
-  dialog.showOpenDialog({}, function (fileNames) {
+
+  dialog.showSaveDialog({ filters: [
+    { name: 'text', extensions: ['txt'] }
+   ]}, function (fileNames) {
 
      // fileNames is an array that contains all the selected
-     if (fileNames === undefined) {
-        console.log('No file selected');
-
-     } else {
-        readFile(fileNames[0]);
+     if (fileNames === undefined){
+        console.log('No file sent to save dialog');
+        return;
      }
+debugger;
+      fs.writeFile(fileNames[0], 'This is the content', { flag: 'w' }, function (err) {
+        if (err) {
+          dialog.showErrorBox('Error', err);
+          return;
+        } else {
+          dialog.showMessageBox({ message: 'The file has been saved! :-)',
+          buttons: ['OK'] });
+        }
+      });
+
   });
 
   function readFile(filepath) {
@@ -89,6 +101,6 @@ ipcMain.on('saveFile', (event, path) => {
 
         // handle the file content
         event.sender.send('fileData', data);
-     })
+     });
   }
-})
+});
