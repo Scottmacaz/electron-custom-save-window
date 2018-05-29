@@ -1,3 +1,4 @@
+
 // App currently only runs in development mode.  If deployed this article has a good section
 // on setting up deployment to use a file and not the development URL:
 // https://scotch.io/tutorials/build-a-music-player-with-angular-2-electron-i-setup-basics-concepts
@@ -5,6 +6,7 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+
 const {ipcMain} = require('electron') ;
 require('electron-reload')(__dirname );
 

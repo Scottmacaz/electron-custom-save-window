@@ -1,0 +1,96 @@
+const { app, BrowserWindow, ipcMain, globalShortcut, dialog } = require('electron');
+var fs = require('fs');
+const path = require('path');
+const url = require('url');
+
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
+let win;
+
+//app.commandLine.appendSwitch('disable-http-cache');
+
+function createWindow () {
+    // Create the browser window.
+    win = new BrowserWindow({width: 800, height: 600, frame:false, icon: path.join(__dirname, 'assets/icons/png/HamiltonIcon64x64.png')});
+
+    //this is a workaround for the window not going to the foreground in windows 10
+    //https://github.com/electron/electron/issues/2867#issuecomment-153918442
+    win.setAlwaysOnTop(true);
+    win.minimize();
+    //what about this?!?
+    win.show();
+    win.maximize();
+    win.setAlwaysOnTop(false);
+
+    // and load the index.html of the app.
+    win.loadURL(`file://${__dirname}/index.html`);
+
+    // Open the DevTools.
+    win.webContents.openDevTools();
+
+    // Emitted when the window is closed.
+    win.on('closed', () => {
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        win = null;
+    });
+}
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', createWindow)
+
+// Quit when all windows are closed.
+app.on('window-all-closed',
+    () => {
+        // On macOS it is common for applications and their menu bar
+        // to stay active until the user quits explicitly with Cmd + Q
+        if (process.platform !== 'darwin') {
+            app.quit();
+        }
+    });
+
+app.on('activate',
+    () => {
+        // On macOS it's common to re-create a window in the app when the
+        // dock icon is clicked and there are no other windows open.
+        if (win === null) {
+            createWindow();
+        }
+    });
+
+ipcMain.on('save-file', (event, fileContents, fileName, dialogTitle, defaultPath, fileExtension) => {
+    
+    console.log(`Saving file name: ${fileName}`);
+    console.log(`Saving file extension: ${fileExtension}`);
+    console.log(`defaultPath: ${defaultPath}`);
+
+    //console.log(`Saving file contents: ${fileContents}`);
+    var options = {
+        title: dialogTitle,
+        defaultPath: `${defaultPath}\\${fileName}`,
+        filters: [{ name: fileExtension, extensions: [fileExtension] }]
+    };
+
+    dialog.showSaveDialog(options, (fileName) => {
+        if (fileName === undefined) {
+            event.returnValue = { "hasError": true, "error": "fileName is undefined" };
+            return;
+        }
+        // fileName is a string that contains the path and filename created in the save file dialog.  
+        fs.writeFile(fileName, fileContents, (err) => {
+            if (err) {
+                event.returnValue = { 'hasError': true, 'error': `Error Creating File: ${err.message}` }
+                return;
+            }
+        });
+
+        event.returnValue = { 'hasError': false }
+        return;
+    });
+});
+
+
+
