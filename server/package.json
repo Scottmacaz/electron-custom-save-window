@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
+    "debug": "nodemon --inspect app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,7 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.4",
-    "express": "^4.16.3"
+    "drivelist": "^6.2.2",
+    "express": "^4.16.3",
+    "node-gyp": "^3.6.2",
+    "usb-detection": "^3.0.3"
   },
   "devDependencies": {
     "nodemon": "^1.17.5"

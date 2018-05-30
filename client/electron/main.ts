@@ -78,6 +78,10 @@ ipcMain.on('saveFile', (event, fileName, fileExtenstion, fileContents) => {
     defaultPath: 'C:\\t2\\' + fileName
   });
 
+  if (savePath === undefined) {
+    return event.returnValue = 'canceled';
+  }
+
   fs.writeFile(savePath, fileContents, function(err) {
     if (err) {
       alert(`Error saving file!!! ${err}`);
