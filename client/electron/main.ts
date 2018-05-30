@@ -1,17 +1,15 @@
-
 // App currently only runs in development mode.  If deployed this article has a good section
 // on setting up deployment to use a file and not the development URL:
 // https://scotch.io/tutorials/build-a-music-player-with-angular-2-electron-i-setup-basics-concepts
 
-import { app, BrowserWindow } from 'electron';
-import * as path from 'path';
-import * as url from 'url';
+import { app, BrowserWindow } from "electron";
+import * as path from "path";
+import * as url from "url";
 
-const {ipcMain} = require('electron') ;
-require('electron-reload')(__dirname );
+const { ipcMain } = require("electron");
+require("electron-reload")(__dirname);
 
-console.log('watching: ' + __dirname );
-
+console.log("watching: " + __dirname);
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -19,7 +17,7 @@ function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     height: 600,
-    width: 800,
+    width: 800
   });
 
   // and load the index.html of the app.
@@ -29,13 +27,13 @@ function createWindow() {
   //     slashes: true,
   // }));
 
-  mainWindow.loadURL('http://localhost:4200');
+  mainWindow.loadURL("http://localhost:4200");
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', () => {
+  mainWindow.on("closed", () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -67,43 +65,20 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
-ipcMain.on('saveFile', (event, path) => {
-  const {dialog} = require('electron');
+ipcMain.on('saveFile', (event, fileName, data) => {
+  const { dialog } = require('electron');
   const fs = require('fs');
-
-  dialog.showSaveDialog({ filters: [
-    { name: 'text', extensions: ['txt'] }
-   ]}, function (fileNames) {
-
-     // fileNames is an array that contains all the selected
-     if (fileNames === undefined){
-        console.log('No file sent to save dialog');
-        return;
-        
-     }
-debugger;
-      fs.writeFile(fileNames[0], 'This is the content', { flag: 'w' }, function (err) {
-        if (err) {
-          dialog.showErrorBox('Error', err);
-          return;
-        } else {
-          dialog.showMessageBox({ message: 'The file has been saved! :-)',
-          buttons: ['OK'] });
-        }
-      });
-
+  const savePath = dialog.showSaveDialog({
+    filters: [
+      {
+        name: 'Text File',
+        extensions: ['txt']
+      }
+    ],
+    defaultPath: 'C:\\t2\\my-file.txt'
   });
 
-  function readFile(filepath) {
-     fs.readFile(filepath, 'utf-8', (err, data) => {
-
-        if (err) {
-           alert('An error ocurred reading the file :' + err.message)
-           return;
-        }
-
-        // handle the file content
-        event.sender.send('fileData', data);
-     });
-  }
+  fs.writeFile(savePath, data, function(err) {
+    // file saved or err
+  });
 });

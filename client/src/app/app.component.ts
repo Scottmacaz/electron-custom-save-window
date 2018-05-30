@@ -42,7 +42,7 @@ export class AppComponent {
     const blob = new Blob([response.body], { type: 'text/plain' });
     if (this.electronService.isElectronApp) {
       console.log('Electron app!');
-      this.electronService.ipcRenderer.send('saveFile', () => {
+      this.electronService.ipcRenderer.send('saveFile', (blob) => {
         console.log('Event sent.');
      });
     } else {
