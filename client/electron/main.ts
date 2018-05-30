@@ -65,20 +65,25 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
-ipcMain.on('saveFile', (event, fileName, data) => {
+ipcMain.on('saveFile', (event, fileName, fileExtenstion, fileContents) => {
   const { dialog } = require('electron');
   const fs = require('fs');
   const savePath = dialog.showSaveDialog({
     filters: [
       {
-        name: 'Text File',
-        extensions: ['txt']
+        name: fileName,
+        extensions: [fileExtenstion]
       }
     ],
-    defaultPath: 'C:\\t2\\my-file.txt'
+    defaultPath: 'C:\\t2\\' + fileName
   });
 
-  fs.writeFile(savePath, data, function(err) {
-    // file saved or err
+  fs.writeFile(savePath, fileContents, function(err) {
+    if (err) {
+      alert(`Error saving file!!! ${err}`);
+      return event.returnValue = 'fail';
+    } else {
+      return event.returnValue = 'success';
+    }
   });
 });
