@@ -22,6 +22,7 @@ export class AppComponent {
 
     this.appService.getFile().subscribe(
             data => {
+              debugger;
               this.saveToFileSystem(data);
             },
             err => {
@@ -37,7 +38,7 @@ export class AppComponent {
     const contentDispositionHeader: string = response.headers.get('Content-Disposition');
     const parts: string[] = contentDispositionHeader.split(';');
     let filename = parts[1].split('=')[1];
-    filename = filename.replace(/"/g,'');
+    filename = filename.replace(/"/g, '');
     const blob = new Blob([response.body], { type: 'text/plain' });
     if (this.electronService.isElectronApp) {
       console.log('Electron app!');

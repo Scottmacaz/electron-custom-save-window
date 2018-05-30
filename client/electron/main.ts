@@ -79,6 +79,7 @@ ipcMain.on('saveFile', (event, path) => {
      if (fileNames === undefined){
         console.log('No file sent to save dialog');
         return;
+        
      }
 debugger;
       fs.writeFile(fileNames[0], 'This is the content', { flag: 'w' }, function (err) {
