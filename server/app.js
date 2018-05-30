@@ -13,8 +13,16 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/file', (req, res) => {
-  res.download("./text-file.txt", "textFile.txt");
+app.get('/textfile', (req, res) => {
+  res.download("./download-files/text-file.txt", "textFile.txt");
+})
+
+app.get('/pdffile', (req, res) => {
+  res.download("./download-files/CathederalAndBazaar.pdf", "cathederal-and-bazaar.pdf");
+})
+
+app.get('/zipfile', (req, res) => {
+  res.download("./download-files/zip-file.zip", "zipFilie.zip");
 })
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
