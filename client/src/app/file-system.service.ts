@@ -7,31 +7,20 @@ import {saveAs} from 'file-saver';
 export class FileSystemService {
 
   constructor(private electronService: ElectronService) {}
-  saveFile(responseBody: any, fileName: string, dialogTitle: string, defaultPath: string, fileExtension: string, fileType: string) {
+
+  saveFile(response, fileExtension, type) {
+    const contentDispositionHeader: string = response.headers.get('Content-Disposition');
+    const parts: string[] = contentDispositionHeader.split(';');
+    let filename = parts[1].split('=')[1];
+    filename = filename.replace(/"/g, '');
     if (this.electronService.isElectronApp) {
-      const byteArray = new Uint8Array(responseBody);
-      const buffer = new Buffer(byteArray.length);
-      for (let i = 0; i < byteArray.length; i++) {
-          buffer.writeUInt8(byteArray[i], i);
-      }
-
-      const response = this.electronService.ipcRenderer.sendSync('save-file', byteArray, fileName, dialogTitle, defaultPath, fileExtension);
-      return {
-          'hasError': false,
-          'error': ''
-      };
-      /////
-
+      console.log('Electron app!');
+      const electronResponse = this.electronService.ipcRenderer.sendSync('saveFile', filename, fileExtension, new Buffer(response.body));
+      console.log(`Electron Response: [${electronResponse}]`);
     } else {
-
-      const blob = new Blob([responseBody], { type: fileType });
-      saveAs(blob, `${fileName}.${fileExtension}`);
-
-      return {
-          'hasError': false,
-          'error': ''
-      };
-
+      const blob = new Blob([response.body], {type: type});
+      console.log('web page app!');
+      saveAs(blob, filename);
     }
   }
 }
