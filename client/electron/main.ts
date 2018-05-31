@@ -2,14 +2,14 @@
 // on setting up deployment to use a file and not the development URL:
 // https://scotch.io/tutorials/build-a-music-player-with-angular-2-electron-i-setup-basics-concepts
 
-import { app, BrowserWindow } from "electron";
-import * as path from "path";
-import * as url from "url";
+import { app, BrowserWindow } from 'electron';
+import * as path from 'path';
+import * as url from 'url';
 
-const { ipcMain } = require("electron");
-require("electron-reload")(__dirname);
+const { ipcMain } = require('electron');
+require('electron-reload')(__dirname);
 
-console.log("watching: " + __dirname);
+console.log('watching: ' + __dirname);
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -27,13 +27,13 @@ function createWindow() {
   //     slashes: true,
   // }));
 
-  mainWindow.loadURL("http://localhost:4200");
+  mainWindow.loadURL('http://localhost:4200');
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
-  mainWindow.on("closed", () => {
+  mainWindow.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -68,6 +68,12 @@ app.on('activate', () => {
 ipcMain.on('saveFile', (event, fileName, fileExtenstion, fileContents) => {
   const { dialog } = require('electron');
   const fs = require('fs');
+
+  // Try to list drives here .....
+  const usbDriveFinder = require('./usb-drive-finder');
+  usbDriveFinder.findDrives();
+
+  // End Try to list drives
   const savePath = dialog.showSaveDialog({
     filters: [
       {
