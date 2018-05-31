@@ -71,7 +71,11 @@ ipcMain.on('saveFile', (event, fileName, fileExtenstion, fileContents) => {
 
   // Try to list drives here .....
   const usbDriveFinder = require('./usb-drive-finder');
-  usbDriveFinder.findDrives();
+  const drives = usbDriveFinder.findDrives(function(error, usbDrives) {
+    console.log('here are the usb drives in the callback: ' + usbDrives);
+
+  });
+  console.log('Got Drives: ' + drives);
 
   // End Try to list drives
   const savePath = dialog.showSaveDialog({

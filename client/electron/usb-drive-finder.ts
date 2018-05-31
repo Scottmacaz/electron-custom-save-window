@@ -10,11 +10,12 @@
 // ./node_modules/.bin/electron-rebuild See this:
 // https://github.com/electron/electron/blob/v0.37.2/docs/tutorial/using-native-n
 // ode-modules.md#using-native-node-modules
+// https://nodeschool.io/#workshoppers 
 
 const drivelist = require('drivelist');
 
 let usbDriveFinder = {
-  findDrives: function () {
+  findDrives: function (cb) {
     console.log('Finding Drives!!!!!');
     drivelist.list((error, drives) => {
       if (error) {
@@ -31,7 +32,7 @@ let usbDriveFinder = {
         removableDriveLetters.push(drive.mountpoints[0].path);
       });
       console.log(removableDriveLetters);
-      return removableDriveLetters;
+      cb(null, removableDriveLetters);
     });
   }
 };
