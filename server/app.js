@@ -23,6 +23,12 @@ drivelist.list((error, drives) => {
   drives.forEach((drive) => {
     console.log(drive);
   });
+  const removableDrives = drives.filter(x => x.isRemovable === true)
+  let removableDriveLetters = [];
+   removableDrives.forEach(function(drive) {
+     removableDriveLetters.push(drive.mountpoints[0].path);
+   });
+   console.log(removableDriveLetters);
 });
 
 
