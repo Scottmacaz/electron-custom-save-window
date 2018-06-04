@@ -65,19 +65,19 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+ipcMain.on('getdrives', (event, findOnlyUsbDrives) => {
+  const driveFinder = require('./drive-finder');
+  driveFinder.findDrives(true, function(error, drives) {
+    console.log('here are the usb drives in the callback: ' + drives);
+    event.returnValue = drives;
+  });
+});
+
 ipcMain.on('saveFile', (event, fileName, fileExtenstion, fileContents) => {
   const { dialog } = require('electron');
   const fs = require('fs');
 
-  // Try to list drives here .....
-  const usbDriveFinder = require('./usb-drive-finder');
-  const drives = usbDriveFinder.findDrives(function(error, usbDrives) {
-    console.log('here are the usb drives in the callback: ' + usbDrives);
-
-  });
-  console.log('Got Drives: ' + drives);
-
-  // End Try to list drives
   const savePath = dialog.showSaveDialog({
     filters: [
       {
@@ -89,15 +89,15 @@ ipcMain.on('saveFile', (event, fileName, fileExtenstion, fileContents) => {
   });
 
   if (savePath === undefined) {
-    return event.returnValue = 'canceled';
+    return (event.returnValue = 'canceled');
   }
 
   fs.writeFile(savePath, fileContents, function(err) {
     if (err) {
       alert(`Error saving file!!! ${err}`);
-      return event.returnValue = 'fail';
+      return (event.returnValue = 'fail');
     } else {
-      return event.returnValue = 'success';
+      return (event.returnValue = 'success');
     }
   });
 });
