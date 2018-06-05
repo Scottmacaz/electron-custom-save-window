@@ -15,7 +15,7 @@ export class FileSystemService {
     const parts: string[] = contentDispositionHeader.split(';');
     let filename = parts[1].split('=')[1];
     filename = filename.replace(/"/g, '');
-    // if (this.electronService.isElectronApp) {
+    if (this.electronService.isElectronApp) {
       console.log('Electron app!');
         this.dialog.open(SaveToUsbComponent, {
           height: '400px',
@@ -27,12 +27,12 @@ export class FileSystemService {
           }
 
         });
-      // const electronResponse = this.electronService.ipcRenderer.sendSync('saveFile', filename, fileExtension, new Buffer(response.body));
-      // console.log(`Electron Response: [${electronResponse}]`);
-    // } else {
-    //   const blob = new Blob([response.body], {type: type});
-    //   console.log('web page app!');
-    //   saveAs(blob, filename);
-    // }
+      const electronResponse = this.electronService.ipcRenderer.sendSync('saveFile', filename, fileExtension, new Buffer(response.body));
+      console.log(`Electron Response: [${electronResponse}]`);
+    } else {
+      const blob = new Blob([response.body], {type: type});
+      console.log('web page app!');
+      saveAs(blob, filename);
+    }
   }
 }

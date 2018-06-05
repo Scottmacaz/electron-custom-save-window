@@ -19,7 +19,7 @@ import { SaveToUsbComponent } from './save-to-usb/save-to-usb.component';
     BrowserAnimationsModule,
     HttpClientModule,
     NgxElectronModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

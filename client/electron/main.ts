@@ -68,7 +68,7 @@ app.on('activate', () => {
 
 ipcMain.on('getdrives', (event, findOnlyUsbDrives) => {
   const driveFinder = require('./drive-finder');
-  driveFinder.findDrives(true, function(error, drives) {
+  driveFinder.findDrives(findOnlyUsbDrives, function(error, drives) {
     console.log('here are the usb drives in the callback: ' + drives);
     event.returnValue = drives;
   });

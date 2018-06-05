@@ -12,28 +12,26 @@
 // ode-modules.md#using-native-node-modules
 // https://nodeschool.io/#workshoppers
 
- const drivelist = require('drivelist');
+const drivelist = require('drivelist');
 
 let driveFinder = {
   findDrives: function (findOnlyUsbDrives, cb) {
-    console.log('Finding Drives!!!!!');
     drivelist.list((error, drives) => {
       if (error) {
-        console.log ('Error!!!!!!!!!!!!!!!!')
-        throw error;
+        return cb(error);
       }
+      let returnDrives =  [];
+      if (findOnlyUsbDrives) {
+        returnDrives = drives.filter(x => x.isRemovable === true);
+      } else {
+        returnDrives = drives;
+      }
+      const driveLetters = [];
 
-      drives.forEach((drive) => {
-        console.log(drive);
+      returnDrives.forEach(function (drive) {
+        driveLetters.push(drive.mountpoints[0].path);
       });
-      const removableDrives = drives.filter(x => x.isRemovable === true);
-      const removableDriveLetters = [];
-
-      removableDrives.forEach(function (drive) {
-        removableDriveLetters.push(drive.mountpoints[0].path);
-      });
-      console.log(removableDriveLetters);
-      cb(null, removableDriveLetters);
+      cb(null, driveLetters);
     });
   }
 };

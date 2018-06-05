@@ -10,7 +10,7 @@ import { ElectronService } from 'ngx-electron';
 export class SaveToUsbComponent implements OnInit {
   fileType = '';
   drives = [];
-  showAllDrives = false;
+  showOnlyUsbDrives = false;
   constructor(
     public dialogRef: MatDialogRef<SaveToUsbComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -19,7 +19,7 @@ export class SaveToUsbComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.drives = this.electronService.ipcRenderer.sendSync('getdrives', false);
+    this.drives = this.electronService.ipcRenderer.sendSync('getdrives', this.showOnlyUsbDrives);
     console.log('Dialog got drives: ' + this.drives);
   }
 
@@ -27,13 +27,16 @@ export class SaveToUsbComponent implements OnInit {
     this.dialogRef.close('AnyDataToReturnHere');
   }
 
+  retry() {
+    this.drives = this.electronService.ipcRenderer.sendSync('getdrives', this.showOnlyUsbDrives);
+  }
+
   getDriveContents(drive) {
     console.log('Getting drive contents for: ' + drive);
   }
 
   showAllDrivesChanged(e) {
-    debugger;
-    console.log('e.isChecked: ' + e.target.checked);
-    this.showAllDrives = e.target.checked;
+    this.showOnlyUsbDrives = e.target.checked;
+      this.drives = this.electronService.ipcRenderer.sendSync('getdrives', this.showOnlyUsbDrives);
   }
 }
