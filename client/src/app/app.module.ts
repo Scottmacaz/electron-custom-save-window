@@ -7,13 +7,13 @@ import {NgxElectronModule} from 'ngx-electron';
 
 import { AppComponent } from './app.component';
 import { AppService } from './app.service';
-import { SaveToUsbComponent } from './save-to-usb/save-to-usb.component';
+import { FileSaveDialogComponent } from './file-save-dialog/file-save-dialog.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SaveToUsbComponent
+    FileSaveDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +25,6 @@ import { FormsModule } from '@angular/forms';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [SaveToUsbComponent]
+  entryComponents: [FileSaveDialogComponent]
 })
 export class AppModule { }

@@ -3,17 +3,17 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ElectronService } from 'ngx-electron';
 
 @Component({
-  selector: 'app-save-to-usb',
-  templateUrl: './save-to-usb.component.html',
-  styleUrls: ['./save-to-usb.component.css']
+  selector: 'app-file-save',
+  templateUrl: './file-save-dialog.component.html',
+  styleUrls: ['./file-save-dialog.component.css']
 })
-export class SaveToUsbComponent implements OnInit {
+export class FileSaveDialogComponent implements OnInit {
   fileType = '';
   drives = [];
   showOnlyUsbDrives = false;
   filename = 'blah';
   constructor(
-    public dialogRef: MatDialogRef<SaveToUsbComponent>,
+    public dialogRef: MatDialogRef<FileSaveDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
     private electronService: ElectronService  ) {
     this.fileType = data.fileType;

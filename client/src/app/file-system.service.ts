@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ElectronService} from 'ngx-electron';
 import {saveAs} from 'file-saver';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { SaveToUsbComponent } from './save-to-usb/save-to-usb.component';
+import { FileSaveDialogComponent } from './file-save-dialog/file-save-dialog.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +17,7 @@ export class FileSystemService {
     filename = filename.replace(/"/g, '');
     if (this.electronService.isElectronApp) {
       console.log('Electron app!');
-        this.dialog.open(SaveToUsbComponent, {
+        this.dialog.open(FileSaveDialogComponent, {
           height: '400px',
           width: '600px',
           autoFocus: true,
