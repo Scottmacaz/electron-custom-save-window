@@ -8,6 +8,7 @@ import {NgxElectronModule} from 'ngx-electron';
 import { AppComponent } from './app.component';
 import { AppService } from './app.service';
 import { SaveToUsbComponent } from './save-to-usb/save-to-usb.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SaveToUsbComponent } from './save-to-usb/save-to-usb.component';
     HttpClientModule,
     NgxElectronModule,
     MatDialogModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,24 +1,29 @@
 <h2 mat-dialog-title>Save {{fileType}} to USB</h2>
 
 <div class="container">
-  <mat-dialog-content >
+  <mat-dialog-content>
 
-    <h3>Select a removable drive:</h3>
+    <h3>Select a drive:</h3>
     <div style="height: 200px; overflow: auto;">
-    <div *ngFor="let drive of drives">
-      <a (click)="getDriveContents(drive)" href="#"> {{ drive }}</a>
+      <div *ngFor="let drive of drives">
+        <a (click)="getDriveContents(drive)" href="#"> {{ drive }}</a>
+      </div>
     </div>
-  </div>
     <div>
       <label>
         <input type="checkbox" (change)="showAllDrivesChanged($event)"> Show Only USB Drives
       </label>
-
     </div>
+
+    <div class="form-group">
+      <label >File Name:</label>
+      <input type="text" [(ngModel)]="filename">
+    </div>
+
   </mat-dialog-content>
 
-  <mat-dialog-actions >
-    <button class="mat-raised-button" (click)="close()">Cancel</button>
+  <mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close(filename.value)">Cancel</button>
     <button class="mat-raised-button" (click)="retry()">Retry</button>
     <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
   </mat-dialog-actions>

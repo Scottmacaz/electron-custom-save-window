@@ -11,6 +11,7 @@ export class SaveToUsbComponent implements OnInit {
   fileType = '';
   drives = [];
   showOnlyUsbDrives = false;
+  filename = 'blah';
   constructor(
     public dialogRef: MatDialogRef<SaveToUsbComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -23,8 +24,13 @@ export class SaveToUsbComponent implements OnInit {
     console.log('Dialog got drives: ' + this.drives);
   }
 
-  close() {
+  close(filename: string) {
+    console.log('filename: ' + filename);
     this.dialogRef.close('AnyDataToReturnHere');
+  }
+
+  save() {
+    console.log('save file: ' + this.filename);
   }
 
   retry() {
