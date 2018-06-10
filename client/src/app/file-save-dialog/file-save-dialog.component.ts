@@ -49,6 +49,7 @@ export class FileSaveDialogComponent implements OnInit {
     this.currentPath = this.currentPath + selectedItem;
     console.log('Getting files for: ' + this.currentPath);
     const files = this.electronService.ipcRenderer.sendSync('getfiles', this.currentPath);
+    debugger;
     console.log('Here are the files in the ng app: ' + files);
     this.driveWindowContents = files.slice(0);
   }

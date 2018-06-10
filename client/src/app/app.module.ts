@@ -4,6 +4,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatDialogModule} from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import {NgxElectronModule} from 'ngx-electron';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { AppComponent } from './app.component';
 import { AppService } from './app.service';
@@ -21,7 +22,8 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     NgxElectronModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    AngularFontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent],

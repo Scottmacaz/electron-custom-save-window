@@ -1,19 +1,16 @@
+// https://code-maven.com/list-content-of-directory-with-nodejs
 const fs = require('fs');
 
 let fileLister = {
-  listFiles: function (path, cb) {
-    fs.readdir(path, function(err, items) {
-      if (err) {
-        cb(err);
-      }
-      console.log(items);
-      const files = [];
-      for (let i = 0; i < items.length; i++) {
-          console.log(items[i]);
-          files.push(items[i]);
-      }
-      cb(null, files);
-  });
+  listFiles: function(path, cb) {
+    const files = fs.readdirSync(path);
+
+    const rsp = [];
+    files.forEach(function(file) {
+      const stats = fs.statSync(path + '\\' + file);
+      rsp.push({ file: file, isDir: stats.isDirectory() });
+    });
+    cb(null, rsp);
   }
 };
 
