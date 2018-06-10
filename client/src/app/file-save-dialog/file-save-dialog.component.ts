@@ -11,6 +11,7 @@ export class FileSaveDialogComponent implements OnInit {
   fileType = '';
   drives = [];
   showOnlyUsbDrives = false;
+
   filename = 'blah';
   constructor(
     public dialogRef: MatDialogRef<FileSaveDialogComponent>,
@@ -43,6 +44,6 @@ export class FileSaveDialogComponent implements OnInit {
 
   showAllDrivesChanged(e) {
     this.showOnlyUsbDrives = e.target.checked;
-      this.drives = this.electronService.ipcRenderer.sendSync('getdrives', this.showOnlyUsbDrives);
+    this.drives = this.electronService.ipcRenderer.sendSync('getdrives', this.showOnlyUsbDrives);
   }
 }

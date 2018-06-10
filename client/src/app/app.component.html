@@ -3,3 +3,8 @@
       <button (click)="onDownloadZipFile()" class="mat-raised-button" style="width: 180px;">Download Zip File</button>
       <button (click)="onDownloadPdfFile()" class="mat-raised-button" style="width: 180px;">Download Pdf File</button>
 </div>
+<div>
+  <label>
+    <input type="checkbox" (change)="useElectronDialogChanged($event)"> Use Electron Save Dialog
+  </label>
+</div>

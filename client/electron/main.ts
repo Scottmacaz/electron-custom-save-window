@@ -74,6 +74,14 @@ ipcMain.on('getdrives', (event, findOnlyUsbDrives) => {
   });
 });
 
+ipcMain.on('getfiles', (event, pathToFiles) => {
+  const fileLister = require('./file-lister');
+  fileLister.listFiles(pathToFiles, function(error, files) {
+    console.log('here are the files in the callback: ' + files);
+    event.returnValue = files;
+  });
+});
+
 ipcMain.on('saveFile', (event, fileName, fileExtenstion, fileContents) => {
   const { dialog } = require('electron');
   const fs = require('fs');
