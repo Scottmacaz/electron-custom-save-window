@@ -5,8 +5,8 @@
 
     <h3>Select a drive:</h3>
     <div style="height: 200px; overflow: auto;">
-      <div *ngFor="let drive of drives">
-        <a (click)="getDriveContents(drive)" href="#"> {{ drive }}</a>
+      <div *ngFor="let contentItem of driveWindowContents">
+        <a (click)="getFiles(contentItem)" href="#"> {{ contentItem }}</a>
       </div>
     </div>
 

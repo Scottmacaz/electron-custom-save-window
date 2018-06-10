@@ -17,4 +17,4 @@ let fileLister = {
   }
 };
 
-module.exports = driveFinder;
+module.exports = fileLister;

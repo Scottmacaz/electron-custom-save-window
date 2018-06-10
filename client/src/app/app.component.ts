@@ -17,7 +17,6 @@ export class AppComponent {
 
   onDownloadTextFile() {
     this.appService.getTextFile().subscribe(data => {
-      debugger;
         this.fileSystemService.saveFile(data, 'txt', 'text/plain', this.useElectronDialog);
       }, err => {
         console.error(err);
