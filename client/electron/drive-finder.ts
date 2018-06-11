@@ -26,12 +26,12 @@ let driveFinder = {
       } else {
         returnDrives = drives;
       }
-      const driveLetters = [];
+      const rsp = [];
 
       returnDrives.forEach(function (drive) {
-        driveLetters.push(drive.mountpoints[0].path);
+        rsp.push({'driveLetter': drive.mountpoints[0].path, 'isUsb': drive.isRemovable, 'description': drive.description});
       });
-      cb(null, driveLetters);
+      cb(null, rsp);
     });
   }
 };

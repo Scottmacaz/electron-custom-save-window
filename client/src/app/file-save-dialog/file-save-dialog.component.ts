@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ElectronService } from 'ngx-electron';
+import { FileDetail } from './file-detail';
 
 @Component({
   selector: 'app-file-save',
@@ -9,9 +10,9 @@ import { ElectronService } from 'ngx-electron';
 })
 export class FileSaveDialogComponent implements OnInit {
   fileType = '';
-  drives = [];
+
   showOnlyUsbDrives = false;
-  driveWindowContents = [];
+  fileDetails: Array<FileDetail> = [];
   currentPath = '';
 
   filename = 'blah';
@@ -23,9 +24,7 @@ export class FileSaveDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.drives = this.electronService.ipcRenderer.sendSync('getdrives', this.showOnlyUsbDrives);
-    console.log('Dialog got drives: ' + this.drives);
-    this.driveWindowContents = this.drives.slice(0);
+    this.setUsbDrives();
   }
 
   close(filename: string) {
@@ -38,28 +37,36 @@ export class FileSaveDialogComponent implements OnInit {
   }
 
   retry() {
-    this.drives = this.electronService.ipcRenderer.sendSync('getdrives', this.showOnlyUsbDrives);
+    // this.drives = this.electronService.ipcRenderer.sendSync('getdrives', this.showOnlyUsbDrives);
   }
 
-  getFiles(selectedItem) {
+  getFiles(selectedFile) {
     if ( this.currentPath.length > 0 && !this.currentPath.endsWith('\\')) {
       this.currentPath = this.currentPath + '\\';
     }
-
-    this.currentPath = this.currentPath + selectedItem;
+    this.currentPath = this.currentPath + selectedFile.fileName;
     console.log('Getting files for: ' + this.currentPath);
-    const files = this.electronService.ipcRenderer.sendSync('getfiles', this.currentPath);
     debugger;
-    console.log('Here are the files in the ng app: ' + files);
-    this.driveWindowContents = files.slice(0);
+    const getFileResponse = this.electronService.ipcRenderer.sendSync('getfiles', this.currentPath);
+    debugger;
+    this.fileDetails = new Array<FileDetail>();
+    getFileResponse.files.forEach(file => {
+      this.fileDetails.push(new FileDetail(file.fileName, file.isDir, file.isDir ? 'fa fa-folder' : 'fa fa-file'));
+    });
   }
 
   showAllDrivesChanged(e) {
     this.showOnlyUsbDrives = e.target.checked;
-    this.drives = this.electronService.ipcRenderer.sendSync('getdrives', this.showOnlyUsbDrives);
-    // for now when the user changes drive selection preferences reload the drives.
-    this.driveWindowContents = this.drives.slice(0);
-    this.currentPath = '';
+    this.setUsbDrives();
+  }
 
+  setUsbDrives() {
+    this.fileDetails = new Array<FileDetail>();
+    this.currentPath = '';
+    const drives = this.electronService.ipcRenderer.sendSync('getdrives', this.showOnlyUsbDrives);
+    console.log('Dialog got drives: ' + drives);
+    drives.forEach((drive) => {
+      this.fileDetails.push(new FileDetail(drive.driveLetter, true, drive.isUsb ? 'fa fa-usb' : ''));
+    });
   }
 }

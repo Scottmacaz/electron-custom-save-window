@@ -1,3 +1,3 @@
 export class FileDetail {
-  constructor(fileName: string, isDir: boolean, faIconName: string) {}
+  constructor(public fileName: string, public isDir: boolean, public faIconName: string) {}
 }

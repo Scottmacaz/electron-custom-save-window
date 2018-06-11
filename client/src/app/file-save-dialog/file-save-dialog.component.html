@@ -5,11 +5,12 @@
 
     <h3>Select a drive:</h3>
     <div style="height: 200px; overflow: auto;">
-      <div *ngFor="let contentItem of driveWindowContents">
-        <a (click)="getFiles(contentItem)" href="#"> {{ contentItem }}
-        <i class="fa fa-usb"></i>
-        <i class="fa fa-file"></i>
-        <i class="fa fa-folder"></i>
+      <div *ngFor="let file of fileDetails">
+        <a (click)="getFiles(file)" href="#"> {{ file.fileName }}
+        <i [class]="file.faIconName"></i>
+        <!-- <i class="fas fa-hdd"></i> -->
+        <!-- <i class="fa fa-file"></i>
+        <i class="fa fa-folder"></i> -->
       </a>
       </div>
     </div>

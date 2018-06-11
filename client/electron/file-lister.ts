@@ -3,14 +3,23 @@ const fs = require('fs');
 
 let fileLister = {
   listFiles: function(path, cb) {
-    const files = fs.readdirSync(path);
-
-    const rsp = [];
-    files.forEach(function(file) {
-      const stats = fs.statSync(path + '\\' + file);
-      rsp.push({ file: file, isDir: stats.isDirectory() });
+    fs.readdir(path, function(err, files) {
+      if (err) {
+        cb({ hasError: true, error: err });
+        return;
+      }
+      const rsp = [];
+      files.forEach((file) => {
+        fs.stat(path + '\\' + file, function(statErr, stats) {
+          // ignore stat errors for now.
+          if (!statErr) {
+            console.log('push file: ' + file);
+            rsp.push({ file: file, isDir: stats.isDirectory() });
+          }
+        }(rsp));
+      });
+      cb(null, { hasError: false, files: rsp });
     });
-    cb(null, rsp);
   }
 };
 
