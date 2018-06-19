@@ -51,7 +51,7 @@ export class FileSaveDialogComponent implements OnInit {
     debugger;
     this.fileDetails = new Array<FileDetail>();
     getFileResponse.files.forEach(file => {
-      this.fileDetails.push(new FileDetail(file.fileName, file.isDir, file.isDir ? 'fa fa-folder' : 'fa fa-file'));
+      this.fileDetails.push(new FileDetail(file.file, file.isDir, file.isDir ? 'fa fa-folder' : 'fa fa-file'));
     });
   }
 

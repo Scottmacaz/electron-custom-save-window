@@ -75,6 +75,7 @@ ipcMain.on('getdrives', (event, findOnlyUsbDrives) => {
 });
 
 ipcMain.on('getfiles', (event, pathToFiles) => {
+  debugger;
   const fileLister = require('./file-lister');
   fileLister.listFiles(pathToFiles, function(error, files) {
     console.log('here are the files in the callback: ' + files);
